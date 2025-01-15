@@ -84,4 +84,12 @@ public class CreepyStory {
                 "The darkness engulfs you, and you find yourself trapped within the library's walls, a mere echo of what once was.\n" +
                 "The whispers will haunt you for eternity.\n");
     }
+
+    public void nextLevel(int gameLevel) {
+    switch (gameLevel) {
+        case 2: levelTwo(); break;
+        case 3: levelThree(); break;
+        case 4: levelFour(); break;
+    }
+    }
 }

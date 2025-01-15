@@ -1,8 +1,13 @@
 package org.example;
 import java.util.Scanner;
-
 public class Wordle {
     public static void main(String[] args) {
+
+        Game game = new Game();
+        game.start();
+
+
+    }
 /*
 TODO: Polish, User experience can be improved upon, play again feature does not have let player know that the game has restarted.
 TODO: Research color coding the characters in the console.
@@ -11,128 +16,4 @@ TODO: ADD CREEPY STORY THAT CONTINUES EVERYTIME SOMEONE PLAYS AGAIN, OTHERWISE A
 TODO: CREATE CYPHER OUT OF DIFFERENT ARRAYLISTS TO SPELL OUT A WORD THAT WILL END THE STORY.
  */
 
-        //! Regex pattern for a five-letter word
-        String regex = "^[a-zA-Z]{5}$";
-//        * Declare Scanner
-        Scanner sc = new Scanner(System.in);
-        CreepyStory creepyStory = new CreepyStory();
-
-//        * Game Variables/Properties/Methods
-        boolean gameOn = true;
-        int gameLevel = 1;
-        String cypher = "ghost";
-
-        String chosenWord = WordsList.getChosenWord();
-        System.out.println("Selected word for testing purposes: \n" + (chosenWord));
-        System.out.println();
-
-
-//        System.out.println("Lets play a game! Please enter the word you would like to play");
-        creepyStory.levelOne();
-        while (gameOn) {
-            System.out.println("Game Level: " + gameLevel);
-            String userGuess = sc.nextLine().toLowerCase();
-
-            if (!userGuess.matches(regex) || userGuess.isBlank()) {
-                System.out.println("Please enter a five letter word, no numbers, special characters, or blank spaces please");
-            } else {
-
-                System.out.println("userGuess: " + userGuess);
-                System.out.println("chosenWord: " + chosenWord);
-
-                if (userGuess.equals(chosenWord)) {
-                    System.out.println("You played a word, and won!");
-                    gameOn = false;
-                    gameLevel++;
-                    System.out.println("Would you like to continue? (y/n)");
-                    String playAgain = sc.nextLine().toLowerCase();
-
-                    if (playAgain.equalsIgnoreCase("y") || playAgain.equalsIgnoreCase("yes")) {
-                        chosenWord = WordsList.getChosenWord();
-                        System.out.println(chosenWord);
-                        switch (gameLevel) {
-                            case 2:
-                                creepyStory.levelTwo();
-                                break;
-                            case 3:
-                                creepyStory.levelThree();
-                                break;
-                            case 4:
-                                creepyStory.levelFour();
-                                break;
-                        }
-                        gameOn = true;
-                    } else {
-
-                        switch (gameLevel) {
-                            case 2:
-                                creepyStory.playerChoosesToLeaveAfterLevelTwo();
-                                break;
-                            case 3:
-                                creepyStory.playerChoosesToLeaveAfterLevelThree();
-                                break;
-                            case 4:
-                                creepyStory.playerChoosesToLeaveAfterLevelFour();
-                                break;
-                        }
-                    }
-                    if (gameLevel == 5) {
-                        System.out.println("What is the password?");
-                        String passwordGuess = sc.nextLine().toLowerCase();
-                        chosenWord = cypher;
-                        if (passwordGuess.equals(cypher)) {
-                            creepyStory.endingSolved();
-                            gameOn = false;
-                            sc.close();
-                        } else {
-                            creepyStory.endingFailed();
-                            gameOn = false;
-                            sc.close();
-                        }
-
-                    } else {
-//               * Initialize string builder to allow for string manipulation
-                        StringBuilder result = new StringBuilder();
-//               * boolean array to check for matched characters
-                        boolean[] isMatched = new boolean[5];
-
-
-//              * First pass checking for correct character and index.
-                        for (int i = 0; i < 5; i++) {
-                            if (userGuess.charAt(i) == chosenWord.charAt(i)) {
-                                result.append(Character.toUpperCase(userGuess.charAt(i)));
-                                isMatched[i] = true;
-                            } else {
-                                result.append(Character.toLowerCase(userGuess.charAt(i)));
-                            }
-                        }
-
-//            * Second pass checking for correct character and incorrect index
-                        for (int i = 0; i < 5; i++) {
-                            if (userGuess.charAt(i) == chosenWord.charAt(i)) {
-                                continue;
-                            }
-                            boolean found = false;
-                            for (int j = 0; j < 5; j++) {
-                                if (userGuess.charAt(i) == chosenWord.charAt(j) && !isMatched[j]) {
-                                    result.setCharAt(i, Character.toLowerCase(userGuess.charAt(i)));
-
-                                    isMatched[j] = true;
-                                    found = true;
-                                    break;
-                                }
-                            }
-//              * If not found, replace with an underscore.
-                            if (!found) {
-                                result.setCharAt(i, '_');
-                            }
-                        }
-//          * Print result
-                        System.out.println("Result: " + result);
-                    }
-                }
-            } // !While loop closing brace
-        }
-
-    } // main method
 } // class
