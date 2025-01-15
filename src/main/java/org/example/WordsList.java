@@ -17,7 +17,6 @@ public class WordsList {
         fiveLetterWords.add("berry");
         fiveLetterWords.add("mango");
         fiveLetterWords.add("lemon");
-        fiveLetterWords.add("cherry");
         fiveLetterWords.add("plumb");
         fiveLetterWords.add("melon");
         fiveLetterWords.add("olive");

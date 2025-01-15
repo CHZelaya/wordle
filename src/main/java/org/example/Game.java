@@ -23,6 +23,7 @@ public class Game {
         creepyStory.levelOne();
 
         while (gameOn){
+            System.out.println("Game Level: " + gameLevel);
             String userGuess = scanner.nextLine().toLowerCase();
             handleInput(userGuess);
         }
@@ -36,9 +37,7 @@ public class Game {
         if (!userGuess.matches(regex) || userGuess.isBlank()){
             System.out.println("Please enter a valid word");
         } else {
-            if (gameLevel == 4) {
-                handleFinalGuess();
-            } else if (userGuess.equalsIgnoreCase(chosenWord)) {
+             if (userGuess.equalsIgnoreCase(chosenWord)) {
                 handleCorrectGuess();
             } else {
                 GameLogic.handleGameLogic(userGuess, chosenWord);
@@ -62,7 +61,6 @@ public class Game {
 
     private void handleFinalGuess() {
         chosenWord = "ghost";
-        System.out.println("What is the password?");
         String finalGuess = scanner.nextLine().toLowerCase();
 
         if (finalGuess.equals(chosenWord)){
@@ -75,11 +73,16 @@ public class Game {
     }
 
     private void resetGame() {
+        if (gameLevel == 5) {
+            creepyStory.levelSix();
+            handleFinalGuess();
+        } else {
         System.out.println("Game has been reset");
-        gameLevel++;
+        ++gameLevel;
         creepyStory.nextLevel(gameLevel);
         chosenWord = WordsList.getChosenWord();
         System.out.println(chosenWord);
+        }
     }
 
 
